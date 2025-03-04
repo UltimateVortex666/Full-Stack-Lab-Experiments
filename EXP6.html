@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AJAX Example: Fetch User Data</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 50px;
+        }
+        #userList {
+            list-style-type: none;
+            padding: 0;
+        }
+        .user {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin: 10px;
+            border-radius: 5px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+        }
+    </style>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+
+    <h1>Fetch User Data with AJAX</h1>
+    <button id="fetchUsersButton">Fetch Users</button>
+    <ul id="userList"></ul>
+
+    <script>
+        $(document).ready(function() {
+            $('#fetchUsersButton').click(function() {
+                // Clear the user list before fetching new data
+                $('#userList').empty();
+
+                // Make an AJAX request to fetch user data
+                $.ajax({
+                    url: 'https://jsonplaceholder.typicode.com/users',
+                    method: 'GET',
+                    dataType: 'json',
+                    success: function(data) {
+                        // Loop through the user data and append it to the list
+                        data.forEach(function(user) {
+                            $('#userList').append(`
+                                <li class="user">
+                                    <strong>${user.name}</strong><br>
+                                    Email: ${user.email}<br>
+                                    Phone: ${user.phone}<br>
+                                    Website: <a href="http://${user.website}" target="_blank">${user.website}</a>
+                                </li>
+                            `);
+                        });
+                    },
+                    error: function(xhr, status, error) {
+                        // Handle errors
+                        alert('An error occurred while fetching user data: ' + error);
+                    }
+                });
+            });
+        });
+    </script>
+
+</body>
+</html>
